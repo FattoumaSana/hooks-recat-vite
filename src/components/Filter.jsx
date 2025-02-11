@@ -1,5 +1,5 @@
 import React from "react"; 
-import Input from "./Input"; 
+import Input from "./input";
 
 const Filter = ({ setFilterTitle, setFilterRating }) => {
     return (
