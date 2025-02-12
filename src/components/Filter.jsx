@@ -1,13 +1,16 @@
 import React from "react";
-import { Form } from "react-bootstrap";
+import "../assets/styles/Filter.css";
 
 const Filter = ({ setFilterTitle }) => {
   return (
-    <Form.Control
-      type="text"
-      placeholder="Rechercher un film..."
-      onChange={(e) => setFilterTitle(e.target.value)}
-    />
+    <div className="filter-container">
+      <input
+        type="text"
+        placeholder="🔍 Rechercher un film..."
+        onChange={(e) => setFilterTitle(e.target.value)}
+        className="filter-input"
+      />
+    </div>
   );
 };
 

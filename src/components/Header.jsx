@@ -1,7 +1,7 @@
 import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 
-const NavBar = () => {
+const Header = ({ onShowForm }) => {
     return (
         <Navbar bg="primary" variant="dark" expand="lg">
             <Container>
@@ -9,10 +9,11 @@ const NavBar = () => {
                 <Nav className="ms-auto">
                     <Nav.Link href="#">Accueil</Nav.Link>
                     <Nav.Link href="#">À Propos</Nav.Link>
+                    <Button variant="warning" onClick={onShowForm}>➕ Ajouter un film</Button>
                 </Nav>
             </Container>
         </Navbar>
     );
 };
 
-export default NavBar;
+export default Header;

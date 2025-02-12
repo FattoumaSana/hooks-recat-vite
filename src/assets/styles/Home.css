@@ -1,0 +1,29 @@
+body {
+    background-color: #fce4ec;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.custom-select {
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #ffccbc;
+    border: none;
+    color: #6d4c41;
+    transition: 0.3s ease;
+}
+
+.custom-select:hover {
+    background-color: #ffab91;
+    cursor: pointer;
+}
+
+/* Ajout d’une animation douce aux cartes */
+.movie-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
