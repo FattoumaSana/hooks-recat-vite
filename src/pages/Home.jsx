@@ -1,12 +1,24 @@
 import React, { useState } from "react";
-import MovieList from "../components/MovieList";
-import Filter from "../components/Filter";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { Container, Row, Col, Form, Button, Modal, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/Home.css";
+import Filter from "../components/Filter"; // Import Filter
+
+
+// Function to slugify the title
+function slugify(text) {
+    return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "-"); // Replace spaces with hyphens
+}
+
 
 const Home = () => {
+    const navigate = useNavigate(); // Initialize useNavigate
+
     const [movies, setMovies] = useState([
         {
             title: "Le Roi Lion",
@@ -63,6 +75,7 @@ const Home = () => {
             note: 8.1,
         }  ]);
 
+
     const [filterTitle, setFilterTitle] = useState("");
     const [filterRating, setFilterRating] = useState("");
 
@@ -84,15 +97,24 @@ const Home = () => {
     };
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+        >
             <Container className="py-4">
                 {/* Filtres et Bouton Ajouter un film */}
                 <Row className="mb-4 align-items-center">
                     <Col md={8}>
-                        <Filter setFilterTitle={setFilterTitle} />
+                        <Filter setFilterTitle={setFilterTitle} /> {/* Use the Filter component */}
                     </Col>
                     <Col md={3}>
-                        <Form.Select className="custom-select" value={filterRating} onChange={(e) => setFilterRating(e.target.value)}>
+                        <Form.Select
+                            className="custom-select"
+                            value={filterRating}
+                            onChange={(e) => setFilterRating(e.target.value)}
+                        >
                             <option value="">Toutes les notes</option>
                             <option value="9">9+ ⭐</option>
                             <option value="8.5">8.5+ ⭐</option>
@@ -101,10 +123,11 @@ const Home = () => {
                         </Form.Select>
                     </Col>
                     <Col md={1} className="text-end">
-                        <Button variant="warning" onClick={() => setShowModal(true)}>➕</Button>
+                        <Button variant="warning" onClick={() => setShowModal(true)}>
+                            ➕
+                        </Button>
                     </Col>
                 </Row>
-
                 {/* Modale d'ajout de film */}
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Header closeButton>
@@ -133,7 +156,38 @@ const Home = () => {
                 </Modal>
 
                 {/* Liste des films */}
-                <MovieList movies={filteredMovies} />
+                <Row>
+                    {filteredMovies.map((movie, index) => (
+                        <Col key={index} md={4} className="mb-4 d-flex justify-content-center">
+                            <Card className="shadow-lg rounded m-2 movie-card">
+                            <Card.Img
+                                    variant="top"
+                                    src={movie.posterURL}
+                                    alt={movie.title}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                        navigate(`/movie/${slugify(movie.title)}`, { state: movie })
+                                    }
+                                />
+                                <Card.Body>
+                                    <Card.Title>{movie.title}</Card.Title>
+                                    <Card.Text>
+                                        {movie.description.split(" ").slice(0, 100).join(" ") + "..."}
+                                    </Card.Text>
+                                    <p className="fw-bold">⭐ {movie.note}/10</p>
+                                    <Button
+                                        variant="primary"
+                                        onClick={() =>
+                                            navigate(`/movie/${slugify(movie.title)}`, { state: movie })
+                                        }
+                                    >
+                                        Voir plus
+                                    </Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
             </Container>
         </motion.div>
     );
